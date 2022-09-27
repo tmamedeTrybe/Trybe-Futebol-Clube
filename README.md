@@ -84,10 +84,10 @@ Leia essa parte atentamente, pois aqui você encontrará informações important
 <details>
 <summary><strong> 🔰 Iniciando o projeto</strong></summary><br />
 
-  1. Clone o repositório `Usar link SSH`
+  1. Clone o repositório `git clone git@github.com:tryber/sd-020-b-trybe-futebol-clube.git`
 
 - Entre na pasta do repositório que você acabou de clonar:
-  * `cd pasta-do-repositório`
+  * `cd sd-020-b-trybe-futebol-clube`
 
   2. Instale as dependências [**Caso existam**]
   *`npm install`
