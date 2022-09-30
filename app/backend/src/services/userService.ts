@@ -1,8 +1,9 @@
 import { compareSync } from 'bcryptjs';
 import IUserLogin from '../interfaces/IUserLogin';
 import User from '../database/models/User';
-import tokenGenerate from '../helpers/jwt';
+import { tokenGenerate, verifyToken } from '../helpers/jwt';
 import validateLogin from '../validations/validateLogin';
+import IUser from '../interfaces/IUser';
 
 class UserService {
   constructor(private UserModel: typeof User) {}
@@ -20,6 +21,16 @@ class UserService {
     const token = tokenGenerate(userValid);
 
     return { code: 200, token };
+  }
+
+  public async validate(token:string) {
+    const userToken = verifyToken(token);
+    const { id } = userToken.data;
+    const user:IUser | null = await this.UserModel.findByPk(id);
+
+    if (!user) return { code: 401, erro: 'Invalid token' };
+
+    return { code: 200, role: user.role };
   }
 }
 

@@ -12,6 +12,14 @@ class UserController {
 
     return res.status(tokenLogin.code).json({ token: tokenLogin.token });
   };
+
+  validate = async (req: Request, res: Response) => {
+    const token = req.header('Authorization');
+    const userRole = await this.userService.validate(token as string);
+    if (userRole.erro) return res.status(userRole.code).json({ message: userRole.erro });
+
+    return res.status(userRole.code).json({ role: userRole.role });
+  };
 }
 
 export default UserController;

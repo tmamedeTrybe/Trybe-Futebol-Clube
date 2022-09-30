@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import IUser from '../interfaces/IUser';
 
 const tokenGenerate = (user: IUser) => {
@@ -15,4 +15,13 @@ const tokenGenerate = (user: IUser) => {
   return token;
 };
 
-export default tokenGenerate;
+const verifyToken = (token:string) => {
+  const decoded = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+
+  return decoded;
+};
+
+export {
+  tokenGenerate,
+  verifyToken,
+};
