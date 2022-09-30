@@ -8,10 +8,10 @@ class UserController {
 
   login = async (req: Request, res: Response) => {
     const tokenLogin = await this.userService.login(req.body as IUserLogin);
-    if(tokenLogin.erro) return res.status(tokenLogin.code).json({ message: tokenLogin.erro });
+    if (tokenLogin.erro) return res.status(tokenLogin.code).json({ message: tokenLogin.erro });
 
-    return res.status(tokenLogin.code).json({ token: tokenLogin.token })
-  }
+    return res.status(tokenLogin.code).json({ token: tokenLogin.token });
+  };
 }
 
 export default UserController;

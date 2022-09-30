@@ -1,5 +1,3 @@
 import usersRoutes from './usersRoutes';
 
-export {
-  usersRoutes
-};
+export default usersRoutes;

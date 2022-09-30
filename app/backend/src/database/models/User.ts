@@ -11,28 +11,28 @@ class User extends Model {
 }
 
 User.init({
-    id: {
-      type: INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    username: {
-      type: STRING,
-      allowNull: false,
-    },
-    role: {
-      type: STRING,
-      allowNull: false,
-    },
-    email: {
-      type: STRING,
-      allowNull: false,
-    },
-    password: {
-      type: STRING,
-      allowNull: false,
-    }, 
+  id: {
+    type: INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  username: {
+    type: STRING,
+    allowNull: false,
+  },
+  role: {
+    type: STRING,
+    allowNull: false,
+  },
+  email: {
+    type: STRING,
+    allowNull: false,
+  },
+  password: {
+    type: STRING,
+    allowNull: false,
+  },
 }, {
   underscored: true,
   sequelize: db,
@@ -41,7 +41,7 @@ User.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
