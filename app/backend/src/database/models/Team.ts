@@ -1,4 +1,4 @@
-import { Model, STRING, INTEGER } from 'sequelize/types';
+import { Model, STRING, INTEGER } from 'sequelize';
 import db from '.';
 
 class Team extends Model {
@@ -27,3 +27,5 @@ Team.init(
     modelName: 'teams',
   },
 );
+
+export default Team;

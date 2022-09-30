@@ -10,6 +10,8 @@ import Example from '../database/models/ExampleModel';
 import { Response } from 'superagent';
 import IUserLogin from '../interfaces/IUserLogin';
 import User from '../database/models/User';
+import Team from '../database/models/Team';
+import ITeam from '../interfaces/ITeam';
 
 chai.use(chaiHttp);
 
@@ -49,10 +51,7 @@ describe('Seu teste', () => {
 
 
 describe('/login', () => {
-  const UserModel = User;
-  const userService = new UserService(UserModel);
-
-  const userLoginMock: IUserLogin = {
+  const userLoginMock = {
     email: 'admin@admin.com',
     password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
   };
@@ -85,7 +84,7 @@ describe('/login', () => {
   }
 
   beforeAll(async () => {
-    sinon.stub(userService, 'login').resolves(result);
+    sinon.stub(User, 'findOne').resolves(userLoginMock as User);
   });
 
   afterAll(async () => {
@@ -96,7 +95,6 @@ describe('/login', () => {
  it ('ao fazer login deve retornar um token e código 200 ', async () => {
   const response = (await chai.request(app).post('/login').send(userLoginMock));
   chai.expect(response.status).to.equal(200);
-  chai.expect(response.type).to.deep.equal(result);
  });
 
  //req. 04 e 05
@@ -122,6 +120,34 @@ describe('/login', () => {
     const response = (await chai.request(app).post('/login').send(userLoginMockWrongPassword));
     chai.expect(response.status).to.equal(401);
   });
+})
 
+const teamsListMock = [
+  {
+    id: 1,
+    teamName: 'Cruzeiro',
+  },
+  {
+    id: 2,
+    teamName: 'Atletico',
+  },
+];
 
+describe('/teams', () => {
+  describe('GET', () => {
+
+    beforeAll(() => {
+      sinon.stub(Team, 'findAll').resolves(teamsListMock as Team[]);
+    })
+
+    afterAll(() => {
+      sinon.restore();
+    })
+
+    it('Deve exibir uma lista de todos os times e código 200', async () => {
+      const response = await chai.request(app).get('/teams');
+      chai.expect(response.status).to.equal(200);
+      chai.expect(response.body).to.deep.equal(teamsListMock);
+    })
+  })
 })

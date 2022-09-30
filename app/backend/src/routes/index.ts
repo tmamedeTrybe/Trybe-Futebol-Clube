@@ -1,3 +1,7 @@
 import usersRoutes from './usersRoutes';
+import teamsRoutes from './teamsRoutes';
 
-export default usersRoutes;
+export {
+  usersRoutes,
+  teamsRoutes,
+};
