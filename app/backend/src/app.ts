@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { usersRoutes } from './routes';
+import usersRoutes from './routes';
 
 class App {
   public app: express.Express;
