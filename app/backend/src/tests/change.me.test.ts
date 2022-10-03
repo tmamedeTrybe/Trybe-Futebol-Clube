@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import UserService from '../services/userService';
+
 
 import { app } from '../app';
 import Example from '../database/models/ExampleModel';
@@ -11,44 +11,42 @@ import { Response } from 'superagent';
 import IUserLogin from '../interfaces/IUserLogin';
 import User from '../database/models/User';
 import Team from '../database/models/Team';
-import ITeam from '../interfaces/ITeam';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+// describe('Seu teste', () => {
+//   /**
+//    * Exemplo do uso de stubs com tipos
+//    */
 
-  // let chaiHttpResponse: Response;
+//   // let chaiHttpResponse: Response;
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
+//   // before(async () => {
+//   //   sinon
+//   //     .stub(Example, "findOne")
+//   //     .resolves({
+//   //       ...<Seu mock>
+//   //     } as Example);
+//   // });
 
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
+//   // after(()=>{
+//   //   (Example.findOne as sinon.SinonStub).restore();
+//   // })
 
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
+//   // it('...', async () => {
+//   //   chaiHttpResponse = await chai
+//   //      .request(app)
+//   //      ...
 
-  //   expect(...)
-  // });
+//   //   expect(...)
+//   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
-  });
-});
-
+//   it('Seu sub-teste', () => {
+//     expect(false).to.be.eq(true);
+//   });
+// });
 
 describe('/login', () => {
   const userLoginMock = {
@@ -83,17 +81,17 @@ describe('/login', () => {
   XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc`,
   }
 
-  beforeAll(async () => {
+  before(async () => {
     sinon.stub(User, 'findOne').resolves(userLoginMock as User);
   });
 
-  afterAll(async () => {
-    sinon.restore();
+  after(()=>{
+      (User.findOne as sinon.SinonStub).restore();
   });
 
   // req. 02 e 03
  it ('ao fazer login deve retornar um token e código 200 ', async () => {
-  const response = (await chai.request(app).post('/login').send(userLoginMock));
+  const response = await chai.request(app).post('/login').send(userLoginMock);
   chai.expect(response.status).to.equal(200);
  });
 
@@ -133,21 +131,44 @@ const teamsListMock = [
   },
 ];
 
+const teamMock = {
+  id: 1,
+  teamName: 'Cruzeiro',
+}
+
 describe('/teams', () => {
+
   describe('GET', () => {
 
-    beforeAll(() => {
+    before(async () => {
       sinon.stub(Team, 'findAll').resolves(teamsListMock as Team[]);
     })
 
-    afterAll(() => {
-      sinon.restore();
-    })
+    after(()=>{
+      (Team.findAll as sinon.SinonStub).restore();
+    });
 
     it('Deve exibir uma lista de todos os times e código 200', async () => {
       const response = await chai.request(app).get('/teams');
       chai.expect(response.status).to.equal(200);
       chai.expect(response.body).to.deep.equal(teamsListMock);
+    })
+  })
+
+  describe('GET/:id', () => {
+
+    before(async () => {
+      sinon.stub(Team, 'findByPk').resolves(teamMock as Team);
+    })
+
+    after(()=>{
+      (Team.findByPk as sinon.SinonStub).restore();
+    });
+
+    it('Deve retornar um time buscado pelo seu id', async () => {
+      const response =  await chai.request(app).get('/teams/1')
+      chai.expect(response.status).to.equal(200);
+      chai.expect(response.body).to.deep.equal(teamMock);
     })
   })
 })

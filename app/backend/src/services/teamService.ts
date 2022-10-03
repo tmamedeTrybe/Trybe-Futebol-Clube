@@ -8,6 +8,12 @@ class TeamService {
     const teams = await this.TeamModel.findAll();
     return teams;
   }
+
+  async getById(id:number) {
+    const team = await this.TeamModel.findByPk(id);
+    if (!team) return { code: 400, erro: 'Team not found' };
+    return { code: 200, team };
+  }
 }
 
 export default TeamService;
