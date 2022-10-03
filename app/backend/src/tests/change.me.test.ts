@@ -5,16 +5,16 @@ import chaiHttp = require('chai-http');
 
 
 import { app } from '../app';
-import Example from '../database/models/ExampleModel';
+// import Example from '../database/models/ExampleModel';
 
-import { Response } from 'superagent';
+// import { Response } from 'superagent';
 import IUserLogin from '../interfaces/IUserLogin';
 import User from '../database/models/User';
 import Team from '../database/models/Team';
 
 chai.use(chaiHttp);
 
-const { expect } = chai;
+// const { expect } = chai;
 
 // describe('Seu teste', () => {
 //   /**

@@ -8,5 +8,7 @@ const matchesRoutes = Router();
 const matchesController = new MatchController(new MatchService(Match));
 
 matchesRoutes.get('/matches', () => matchesController.getAll);
+matchesRoutes.get('/matches', () => matchesController.getMatchesByProgress);
+matchesRoutes.post('/matches', () => matchesController.createMatch);
 
 export default matchesRoutes;

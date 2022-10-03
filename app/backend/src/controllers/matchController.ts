@@ -8,6 +8,26 @@ class MatchController {
     const matches = await this.matchService.getAll();
     return res.status(200).json(matches);
   };
+
+  getMatchesByProgress = async (req: Request, res: Response) => {
+    const { inProgress } = req.query;
+    if (inProgress === 'true') {
+      const matches = await this.matchService.getMatchesByProgress(true);
+      return res.status(200).json(matches);
+    }
+    if (inProgress === 'false') {
+      const matches = await this.matchService.getMatchesByProgress(false);
+      return res.status(200).json(matches);
+    }
+  };
+
+  createMatch = async (req: Request, res: Response) => {
+    const token = req.header('Authorization');
+    const { match } = req.body;
+    const newMatch = await this.matchService.createMatch(match, token as string);
+    if (newMatch.erro) return res.status(newMatch.code).json({ message: newMatch.erro });
+    return res.status(newMatch.code).json(newMatch.match);
+  };
 }
 
 export default MatchController;
