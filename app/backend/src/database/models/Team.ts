@@ -14,7 +14,7 @@ Team.init(
       type: INTEGER,
       allowNull: false,
     },
-    eamname: {
+    teamName: {
       type: STRING,
       allowNull: false,
       field: 'team_name',

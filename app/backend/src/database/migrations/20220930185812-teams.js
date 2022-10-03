@@ -9,7 +9,7 @@
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        teamname: {
+        teamName: {
           type: Sequelize.STRING,
           allowNull: false,
           field: 'team_name'
