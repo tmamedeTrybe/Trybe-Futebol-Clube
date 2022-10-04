@@ -11,7 +11,6 @@ class MatchController {
 
   getMatchesByProgress = async (req: Request, res: Response) => {
     const { inProgress } = req.query;
-    console.log('VEM DA QUERY', inProgress);
 
     if (inProgress === 'true') {
       const matches = await this.matchService.getMatchesByProgress(true);
@@ -25,7 +24,7 @@ class MatchController {
 
   createMatch = async (req: Request, res: Response) => {
     const token = req.header('Authorization');
-    // const {homeTeam, homeTeamGoals, awayTeam, awayTeamGoals} = req.body;
+    if (!token) return res.status(401).json( {message:  'Token must be a valid token'});
     const newMatch = await this.matchService.createMatch(req.body, token as string);
     if (newMatch.erro) return res.status(newMatch.code).json({ message: newMatch.erro });
     return res.status(newMatch.code).json(newMatch.match);

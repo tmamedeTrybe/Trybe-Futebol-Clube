@@ -2,12 +2,13 @@ import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import INewMatch from '../interfaces/INewMatch';
 import validateToken from '../validations/validateToken';
+import validateMatches from '../validations/validateMatches';
 
 class MatchService {
   constructor(private matchModel: typeof Match) {}
 
   // TESTADA
-  async getAll():Promise<Match[]> {
+  async getAll() {
     const matches = await this.matchModel.findAll(
       {
         include: [
@@ -16,6 +17,8 @@ class MatchService {
         ],
       },
     );
+    console.log(matches.length);
+    
     return matches;
   }
 
@@ -34,9 +37,14 @@ class MatchService {
   }
 
   // TESTADA
-  async createMatch({ homeTeam, homeTeamGoals, awayTeam, awayTeamGoals }:INewMatch, token: string) {
+  async createMatch(match:INewMatch, token: string) {
+    const { homeTeam, homeTeamGoals, awayTeam, awayTeamGoals } = match;
+    
     const tokenValid = await validateToken(token);
     if (tokenValid.erro) return { code: tokenValid.code, erro: tokenValid.erro };
+
+    const matchValid = await validateMatches(match);
+    if (matchValid.erro) return { code: matchValid.code, erro: matchValid.erro }
 
     const result = await this.matchModel.create({
       homeTeam,
@@ -48,12 +56,15 @@ class MatchService {
     return { code: 201, match: result };
   }
 
+  // TESTE COM ERRO
   async updateMatch(id:number) {
-    await this.matchModel.update(
+    const log = await this.matchModel.update(
       { inProgress: false },
       { where: { id } },
     );
-    return { code: 200, message: 'updateMatch' };
+    console.log(log);
+    
+    return { code: 200, message: 'Finished' };
   }
 }
 

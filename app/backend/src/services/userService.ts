@@ -28,6 +28,7 @@ class UserService {
 
   public async validate(token:string) {
     const userToken = verifyToken(token);
+    if (userToken === null) return { code: 401, erro: 'Invalid token' };
     const { id } = userToken;
     const user:IUser | null = await this.UserModel.findByPk(id);
 

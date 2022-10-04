@@ -15,10 +15,14 @@ const tokenGenerate = (user: IUser) => {
   return token;
 };
 
-const verifyToken = (token:string) => {
-  const decoded = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+const verifyToken = (token:string): JwtPayload | null => {
+  try {
+    const decoded = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-  return decoded;
+    return decoded;
+  } catch (error) {
+    return null;
+}
 };
 
 export {
