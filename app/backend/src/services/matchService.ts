@@ -3,10 +3,12 @@ import Match from '../database/models/Match';
 import INewMatch from '../interfaces/INewMatch';
 import validateToken from '../validations/validateToken';
 import validateMatches from '../validations/validateMatches';
+import IScore from '../interfaces/IScore';
 
 class MatchService {
   constructor(private matchModel: typeof Match) {}
 
+  // TESTADA
   async getAll() {
     const matches = await this.matchModel.findAll(
       {
@@ -19,6 +21,7 @@ class MatchService {
     return matches;
   }
 
+  // TESTADA
   async getMatchesByProgress(progress:boolean) {
     const matches = await this.matchModel.findAll(
       {
@@ -52,13 +55,24 @@ class MatchService {
     return { code: 201, match: result };
   }
 
-  // TESTE COM ERRO
-  async updateMatch(id:number) {
+  // TESTADA
+  async finishMatch(id:number) {
     await this.matchModel.update(
       { inProgress: false },
       { where: { id } },
     );
     return { code: 200, message: 'Finished' };
+  }
+
+  async updateMatch(id: number, newScoreBoard: IScore) {
+    await this.matchModel.update(
+      {
+        homeTeamGoals: Number(newScoreBoard.homeTeamGoals),
+        awayTeamGoals: Number(newScoreBoard.awayTeamGoals),
+      },
+      { where: { id } },
+    );
+    return { code: 200, message: 'Scoreboard changed!' };
   }
 }
 

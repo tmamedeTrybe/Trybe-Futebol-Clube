@@ -19,7 +19,7 @@ module.exports = {
         }
       },
       homeTeamGoals: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         field: 'home_team_goals'
       },

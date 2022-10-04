@@ -157,6 +157,11 @@ const tokenMock = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZGlzcGxheU5h
 
 const wrongTokenMock = 'hahahaha';
 
+const newScoreboardMock = {
+  homeTeamGoals: 3,
+  awayTeamGoals: 1,
+}
+
 describe('/matches' , () => {
   describe('GET', () => {
 
@@ -251,10 +256,19 @@ describe('/matches' , () => {
       (Match.update as sinon.SinonStub).restore();
     })
 
-    it ( 'Deve alterar o status de uma partida para false e retorna "finished"', async () => {
-      const response  = await chai.request(app).patch('/matches/1/finish');
+    it ( 'Deve alterar o status de uma partida para false e retornar "finished"', async () => {
+      const response = await chai.request(app).patch('/matches/1/finish');
       chai.expect(response.status).to.equal(200);
       chai.expect(response.body.message).to.be.equal("Finished");
+    })
+
+    it ('Deve atualizar o placar de uma partida', async () => {
+      const response = await chai
+      .request(app)
+      .patch('/matches/1')
+      .send(newScoreboardMock);
+      chai.expect(response.status).to.equal(200);
+      chai.expect(response.body.message).to.be.equal('Scoreboard changed!')
     })
 
   })

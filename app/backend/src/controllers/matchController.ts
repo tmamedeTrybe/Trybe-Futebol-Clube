@@ -31,10 +31,16 @@ class MatchController {
     return res.status(newMatch.code).json(newMatch.match);
   };
 
+  finishMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const finish = await this.matchService.finishMatch(Number(id));
+    res.status(finish.code).json({ message: finish.message });
+  };
+
   updateMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const update = await this.matchService.updateMatch(Number(id));
-    res.status(update.code).json({ message: update.message });
+    const update = await this.matchService.updateMatch(Number(id), req.body);
+    return res.status(update.code).json({ message: update.message });
   };
 }
 
