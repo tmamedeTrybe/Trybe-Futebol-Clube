@@ -6,6 +6,7 @@ import validateToken from '../validations/validateToken';
 class MatchService {
   constructor(private matchModel: typeof Match) {}
 
+  // TESTADA
   async getAll():Promise<Match[]> {
     const matches = await this.matchModel.findAll(
       {
@@ -17,7 +18,7 @@ class MatchService {
     );
     return matches;
   }
-
+  // TESTADA
   async getMatchesByProgress(progress:boolean) {
     const matches = await this.matchModel.findAll(
       {
@@ -31,6 +32,7 @@ class MatchService {
     return matches;
   }
 
+  
   async createMatch(match:INewMatch, token: string) {
     const tokenValid = await validateToken(token);
     if (tokenValid.erro) return { code: tokenValid.code, erro: tokenValid.erro };
