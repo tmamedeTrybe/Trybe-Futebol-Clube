@@ -3,7 +3,7 @@ import { verifyToken } from '../helpers/jwt';
 
 const validateToken = async (token:string) => {
   const infoToken = verifyToken(token);
-  const uservalid = await User.findByPk(infoToken.data.id);
+  const uservalid = await User.findByPk(infoToken.id);
   if (!uservalid) return { code: 400, erro: 'Invalid token' };
   return { code: 200 };
 };

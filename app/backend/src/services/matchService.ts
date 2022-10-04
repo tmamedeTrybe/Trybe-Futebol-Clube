@@ -18,6 +18,7 @@ class MatchService {
     );
     return matches;
   }
+
   // TESTADA
   async getMatchesByProgress(progress:boolean) {
     const matches = await this.matchModel.findAll(
@@ -32,19 +33,18 @@ class MatchService {
     return matches;
   }
 
-  
-  async createMatch(match:INewMatch, token: string) {
+  // TESTADA
+  async createMatch({ homeTeam, homeTeamGoals, awayTeam, awayTeamGoals }:INewMatch, token: string) {
     const tokenValid = await validateToken(token);
     if (tokenValid.erro) return { code: tokenValid.code, erro: tokenValid.erro };
 
     const result = await this.matchModel.create({
-      homeTeam: match.homeTeam,
-      homeTeamGoals: match.homeTeamGoals,
-      awayTeam: match.awayTeam,
-      awayTeamGoals: match.awayTeamGoals,
+      homeTeam,
+      homeTeamGoals,
+      awayTeam,
+      awayTeamGoals,
       inProgress: true,
     });
-    // const newMatch = { ...match, id: result.id };
     return { code: 201, match: result };
   }
 

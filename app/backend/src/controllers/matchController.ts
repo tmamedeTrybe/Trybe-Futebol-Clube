@@ -25,8 +25,8 @@ class MatchController {
 
   createMatch = async (req: Request, res: Response) => {
     const token = req.header('Authorization');
-    const { match } = req.body;
-    const newMatch = await this.matchService.createMatch(match, token as string);
+    // const {homeTeam, homeTeamGoals, awayTeam, awayTeamGoals} = req.body;
+    const newMatch = await this.matchService.createMatch(req.body, token as string);
     if (newMatch.erro) return res.status(newMatch.code).json({ message: newMatch.erro });
     return res.status(newMatch.code).json(newMatch.match);
   };

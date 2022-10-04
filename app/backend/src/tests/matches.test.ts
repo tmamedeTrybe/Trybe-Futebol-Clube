@@ -95,6 +95,22 @@ const matchesInProgressListMock:IMatchTeams[] =[
   }
 ]
 
+const newMatchMock = {
+  homeTeam: 16,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2
+}
+
+const newMatchResultMock = {
+  id: 49,
+  homeTeam: 16,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+  inProgress: true,
+}
+
 describe('/matches' , () => {
   describe('GET', () => {
 
@@ -110,12 +126,30 @@ describe('/matches' , () => {
     chai.expect(response.status).to.equal(200);
     chai.expect(response.body).to.deep.equal(resultMatchesListMock as IMatchTeams[]);
   })
-  })
 
   it ('Deve retornar uma lista de partidas em andamento' , async () => {
     const response = await chai.request(app).get('/matches/inProgress=true');
     chai.expect(response.status).to.equal(200);
     chai.expect(response.body).to.deep.equal(matchesInProgressListMock as IMatchTeams[]);
+  })
+
+  });
+
+  describe ('POST', () => {
+
+    before(async () => {
+      sinon.stub(Match, 'create').resolves(newMatchResultMock as Match);
+    })
+    after(() => {
+      (Match.create as sinon.SinonStub).restore();
+    })
+
+    it ( 'Deve salvar uma partida com o status de inProgress como true', async () => {
+      const response  = await chai.request(app).post('/matches').send(newMatchMock);
+      chai.expect(response.status).to.equal(201);
+      chai.expect(response.body).to.deep.equal(newMatchResultMock);
+    })
+
   })
 
 })
