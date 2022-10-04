@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import { before, after } from 'mocha';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -51,13 +52,21 @@ chai.use(chaiHttp);
 describe('/login', () => {
   const userLoginMock = {
     email: 'admin@admin.com',
-    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
+    password: 'secret_admin',
   };
 
   const userLoginMockNoEmail: IUserLogin = {
     email: '',
-    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
+    password: 'secret_admin',
   };
+
+  const userMock = {
+    id: 1,
+    username: 'Admin',
+    role: 'admin',
+    email: 'admin@admin.com',
+    password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+  }
 
   const userLoginMockNoPassword: IUserLogin = {
     email: 'admin@admin.com',
@@ -82,7 +91,7 @@ describe('/login', () => {
   }
 
   before(async () => {
-    sinon.stub(User, 'findOne').resolves(userLoginMock as User);
+    sinon.stub(User, 'findOne').resolves(userMock as User);
   });
 
   after(()=>{

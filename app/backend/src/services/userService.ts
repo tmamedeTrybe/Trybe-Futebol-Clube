@@ -10,22 +10,29 @@ class UserService {
 
   public async login({ email, password }:IUserLogin) {
     const userValid = await this.UserModel.findOne({ where: { email } });
+    
     if (!userValid) return { code: 401, erro: 'Incorrect email or password' };
 
-    const checkPassword = compareSync(password, userValid.password);
-    if (!checkPassword) return { code: 401, erro: 'Incorrect email or password' };
-
     const validLogin = validateLogin({ email, password });
+    console.log(validLogin);
+    
     if (validLogin.erro) return { code: validLogin.code, erro: validLogin.erro };
 
-    const token = tokenGenerate(userValid);
+    const checkPassword = compareSync(password, userValid.password);
+    console.log(checkPassword);
+    
+    if (!checkPassword) return { code: 401, erro: 'Incorrect email or password' };
 
+    const token = tokenGenerate(userValid);
+    
     return { code: 200, token };
   }
 
   public async validate(token:string) {
     const userToken = verifyToken(token);
-    const { id } = userToken.data;
+    console.log(userToken);
+    
+    const { id } = userToken;
     const user:IUser | null = await this.UserModel.findByPk(id);
 
     if (!user) return { code: 401, erro: 'Invalid token' };

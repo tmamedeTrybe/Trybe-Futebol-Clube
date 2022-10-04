@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import { before, after } from 'mocha';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -98,7 +99,7 @@ describe('/matches' , () => {
   describe('GET', () => {
 
   before(async () => {
-    sinon.stub(Match, 'findAll').resolves(matchesListMock as Match[]);
+    sinon.stub(Match, 'findAll').resolves(resultMatchesListMock as unknown as Match[]);
   })
   after(() => {
     (Match.findAll as sinon.SinonStub).restore();

@@ -1,7 +1,7 @@
 import IUserLogin from '../interfaces/IUserLogin';
 
 const validateLogin = ({ email, password }:IUserLogin) => {
-  if (!email || !password) return { code: 400, erro: 'All fields must be filled' };
+  if (email === '' || password === '') return { code: 400, erro: 'All fields must be filled' };
 
   const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
   const checkEmail = emailRegex.test(email);
