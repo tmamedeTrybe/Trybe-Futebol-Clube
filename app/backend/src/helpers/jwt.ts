@@ -22,7 +22,7 @@ const verifyToken = (token:string): JwtPayload | null => {
     return decoded;
   } catch (error) {
     return null;
-}
+  }
 };
 
 export {

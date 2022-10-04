@@ -49,7 +49,35 @@ const resultMatchesListMock:IMatchTeams[] = [
     }
   },
   {
+    "id": 3,
+    "homeTeam": 16,
+    "homeTeamGoals": 1,
+    "awayTeam": 8,
+    "awayTeamGoals": 1,
+    "inProgress": false,
+    "teamHome": {
+      "teamName": "São Paulo"
+    },
+    "teamAway": {
+      "teamName": "Grêmio"
+    }
+  },
+  {
     "id": 41,
+    "homeTeam": 16,
+    "homeTeamGoals": 2,
+    "awayTeam": 9,
+    "awayTeamGoals": 0,
+    "inProgress": true,
+    "teamHome": {
+      "teamName": "São Paulo"
+    },
+    "teamAway": {
+      "teamName": "Internacional"
+    }
+  },
+  {
+    "id": 43,
     "homeTeam": 16,
     "homeTeamGoals": 2,
     "awayTeam": 9,
@@ -80,19 +108,19 @@ const matchesInProgressListMock:IMatchTeams[] =[
     }
   },
   {
-    "id": 42,
-    "homeTeam": 6,
-    "homeTeamGoals": 1,
-    "awayTeam": 1,
+    "id": 43,
+    "homeTeam": 16,
+    "homeTeamGoals": 2,
+    "awayTeam": 9,
     "awayTeamGoals": 0,
     "inProgress": true,
     "teamHome": {
-      "teamName": "Ferroviária"
+      "teamName": "São Paulo"
     },
     "teamAway": {
-      "teamName": "Avaí/Kindermann"
+      "teamName": "Internacional"
     }
-  }
+  },
 ]
 
 const newMatchMock = {
@@ -144,14 +172,23 @@ describe('/matches' , () => {
     chai.expect(response.status).to.equal(200);
     chai.expect(response.body).to.deep.equal(resultMatchesListMock);
   })
-
-  it ('Deve retornar uma lista de partidas em andamento' , async () => {
-    const response = await chai.request(app).get('/matches/?inProgress=true');
-    chai.expect(response.status).to.equal(200);
-    chai.expect(response.body).to.deep.equal(matchesInProgressListMock);
-  })
-
   });
+
+  describe ('GET na rota inProgress', () => {
+    before(async () => {
+      sinon.stub(Match, 'findAll').resolves(matchesInProgressListMock as any as Match[]);
+    })
+    after(async () => {
+      (Match.findAll as sinon.SinonStub).restore();
+    })
+  
+    it ('Deve retornar uma lista de partidas em andamento' , async () => {
+      const response = await chai.request(app).get('/matches?inProgress=true');
+      chai.expect(response.status).to.equal(200);
+      chai.expect(response.body).to.deep.equal(matchesInProgressListMock);
+    })
+  
+  })
 
   describe ('POST', () => {
 

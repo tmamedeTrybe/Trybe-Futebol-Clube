@@ -25,7 +25,7 @@ class MatchController {
 
   createMatch = async (req: Request, res: Response) => {
     const token = req.header('Authorization');
-    if (!token) return res.status(401).json( {message:  'Token must be a valid token'});
+    if (!token) return res.status(401).json({ message: 'Token must be a valid token' });
     const newMatch = await this.matchService.createMatch(req.body, token as string);
     if (newMatch.erro) return res.status(newMatch.code).json({ message: newMatch.erro });
     return res.status(newMatch.code).json(newMatch.match);
