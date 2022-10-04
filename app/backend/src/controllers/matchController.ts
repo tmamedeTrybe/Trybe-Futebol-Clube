@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import MatchService from '../services/matchService';
 
 class MatchController {
@@ -9,8 +9,9 @@ class MatchController {
     return res.status(200).json(matches);
   };
 
-  getMatchesByProgress = async (req: Request, res: Response) => {
+  getMatchesByProgress = async (req: Request, res: Response, next: NextFunction) => {
     const { inProgress } = req.query;
+    if (!inProgress) next();
 
     if (inProgress === 'true') {
       const matches = await this.matchService.getMatchesByProgress(true);

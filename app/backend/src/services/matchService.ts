@@ -7,7 +7,6 @@ import validateMatches from '../validations/validateMatches';
 class MatchService {
   constructor(private matchModel: typeof Match) {}
 
-  // TESTADA
   async getAll() {
     const matches = await this.matchModel.findAll(
       {
@@ -17,24 +16,23 @@ class MatchService {
         ],
       },
     );
-    console.log(matches.length);
-    
     return matches;
   }
 
-  // TESTADA
+  
   async getMatchesByProgress(progress:boolean) {
-    const matches = await this.matchModel.findAll(
-      {
-        include: [
-          { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
-          { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } },
-        ],
-        where: { inProgress: progress },
-      },
-    );
-    return matches;
+      const matches = await this.matchModel.findAll(
+        {
+          include: [
+            { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
+            { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } },
+          ],
+          where: { inProgress: progress},
+        }
+      );
+      return matches;
   }
+  
 
   // TESTADA
   async createMatch(match:INewMatch, token: string) {
