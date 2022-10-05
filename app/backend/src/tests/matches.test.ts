@@ -10,6 +10,7 @@ import { app } from '../app';
 import { IMatchTeams } from '../interfaces/IMatch';
 import Match from '../database/models/Match';
 
+
 chai.use(chaiHttp);
 
 // const { expect } = chai;
@@ -153,7 +154,7 @@ const newMatchResultMock = {
   inProgress: true,
 }
 
-const tokenMock = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZGlzcGxheU5hbWUiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjY0OTA4NjQ3LCJleHAiOjE2NjQ5OTUwNDd9.xGRKQG75qz9DurlnXHbWI6VrqCzKb7tyCewZHMswY4w';
+const tokenMock = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZGlzcGxheU5hbWUiOiJVc2VyIiwiZW1haWwiOiJ1c2VyQHVzZXIuY29tIiwiaWF0IjoxNjY1MDA4MTYwLCJleHAiOjE2NjUwOTQ1NjB9.0Sj2TvX-nIw9q7PhTzU7qQnVJby0UZ5CrG8ClBoDKf4';
 
 const wrongTokenMock = 'hahahaha';
 
@@ -195,57 +196,57 @@ describe('/matches' , () => {
   
   })
 
-  // describe ('POST', () => {
+  describe ('POST', () => {
 
-  //   before(() => {
-  //     sinon.stub(Match, 'create').resolves(newMatchResultMock as Match);
-  //   })
-  //   after(() => {
-  //     (Match.create as sinon.SinonStub).restore();
-  //   })
+    before(() => {
+      sinon.stub(Match, 'create').resolves(newMatchResultMock as Match);
+    })
+    after(() => {
+      (Match.create as sinon.SinonStub).restore();
+    })
 
-  //   it ( 'Deve salvar uma partida com o status de inProgress como true', async () => {
-  //     const response = await chai
-  //     .request(app)
-  //     .post('/matches')
-  //     .set('Authorization', tokenMock)
-  //     .send(newMatchMock);
-  //     chai.expect(response.status).to.equal(201);
-  //     // chai.expect(response.body).to.deep.equal(newMatchResultMock);
-  //   })
+    it ( 'Deve salvar uma partida com o status de inProgress como true', async () => {
+      const response = await chai
+      .request(app)
+      .post('/matches')
+      .set('Authorization', tokenMock)
+      .send(newMatchMock);
+      chai.expect(response.status).to.equal(201);
+      chai.expect(response.body).to.deep.equal(newMatchResultMock);
+    })
 
-  //   it ('Não seja possível inserir uma partida com times iguais', async () => {
-  //     const response = await chai
-  //     .request(app)
-  //     .post('/matches')
-  //     .set('Authorization', tokenMock)
-  //     .send(newMatchEqualTeamsMock);
-  //     chai.expect(response.status).to.equal(401);
-  //     chai.expect(response.body.message).to.be
-  //       .equal("It is not possible to create a match with two equal teams");
-  //   })
+    it ('Não seja possível inserir uma partida com times iguais', async () => {
+      const response = await chai
+      .request(app)
+      .post('/matches')
+      .set('Authorization', tokenMock)
+      .send(newMatchEqualTeamsMock);
+      chai.expect(response.status).to.equal(401);
+      chai.expect(response.body.message).to.be
+        .equal("It is not possible to create a match with two equal teams");
+    })
 
-  //   it ('Não deve ser possível inserir uma partida com um time inexistente', async () => {
-  //     const response  = await chai
-  //     .request(app)
-  //     .post('/matches')
-  //     .set('Authorization', tokenMock)
-  //     .send(newMatchWrongTeamMock);
-  //     chai.expect(response.status).to.equal(404);
-  //     chai.expect(response.body.message).to.be.equal("There is no team with such id!");
-  //   })
+    it ('Não deve ser possível inserir uma partida com um time inexistente', async () => {
+      const response = await chai
+      .request(app)
+      .post('/matches')
+      .set('Authorization', tokenMock)
+      .send(newMatchWrongTeamMock);
+      chai.expect(response.status).to.equal(404);
+      chai.expect(response.body.message).to.be.equal("There is no team with such id!");
+    })
 
-  //   it ('Não deve ser possível inserir uma partida sem um token válido', async () => {
-  //     const response  = await chai
-  //     .request(app)
-  //     .post('/matches')
-  //     .set('Authorization', wrongTokenMock)
-  //     .send(newMatchWrongTeamMock);
-  //     chai.expect(response.status).to.equal(401);
-  //     chai.expect(response.body.message).to.be.equal("Token must be a valid token");
-  //   })
+    it ('Não deve ser possível inserir uma partida sem um token válido', async () => {
+      const response  = await chai
+      .request(app)
+      .post('/matches')
+      .set('Authorization', wrongTokenMock)
+      .send(newMatchWrongTeamMock);
+      chai.expect(response.status).to.equal(401);
+      chai.expect(response.body.message).to.be.equal("Token must be a valid token");
+    })
 
-  // })
+  })
   
   describe('PATCH', () => {
 
@@ -270,7 +271,5 @@ describe('/matches' , () => {
       chai.expect(response.status).to.equal(200);
       chai.expect(response.body.message).to.be.equal('Scoreboard changed!')
     })
-
   })
-
 })
