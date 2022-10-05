@@ -35,7 +35,6 @@ class MatchService {
     return matches;
   }
 
-  // TESTADA
   async createMatch(match:INewMatch, token: string) {
     const { homeTeam, homeTeamGoals, awayTeam, awayTeamGoals } = match;
 
@@ -55,7 +54,6 @@ class MatchService {
     return { code: 201, match: result };
   }
 
-  // TESTADA
   async finishMatch(id:number) {
     await this.matchModel.update(
       { inProgress: false },
