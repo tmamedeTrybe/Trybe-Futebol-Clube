@@ -15,39 +15,6 @@ import Team from '../database/models/Team';
 
 chai.use(chaiHttp);
 
-// const { expect } = chai;
-
-// describe('Seu teste', () => {
-//   /**
-//    * Exemplo do uso de stubs com tipos
-//    */
-
-//   // let chaiHttpResponse: Response;
-
-//   // before(async () => {
-//   //   sinon
-//   //     .stub(Example, "findOne")
-//   //     .resolves({
-//   //       ...<Seu mock>
-//   //     } as Example);
-//   // });
-
-//   // after(()=>{
-//   //   (Example.findOne as sinon.SinonStub).restore();
-//   // })
-
-//   // it('...', async () => {
-//   //   chaiHttpResponse = await chai
-//   //      .request(app)
-//   //      ...
-
-//   //   expect(...)
-//   // });
-
-//   it('Seu sub-teste', () => {
-//     expect(false).to.be.eq(true);
-//   });
-// });
 
 describe('/login', () => {
   const userLoginMock = {
@@ -66,7 +33,7 @@ describe('/login', () => {
     role: 'admin',
     email: 'admin@admin.com',
     password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
-  }
+  };
 
   const userLoginMockNoPassword: IUserLogin = {
     email: 'admin@admin.com',
